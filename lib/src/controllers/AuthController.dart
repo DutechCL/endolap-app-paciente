@@ -1,12 +1,18 @@
+import 'package:endolap_paciente_app/src/services/alert_service.dart';
+import 'package:endolap_paciente_app/src/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class AuthController extends GetxController {
+  final ApiService _apiService = ApiService();
 	var currentStep = 1.obs;
+  var isLoading = false.obs;
+
+  GlobalKey<FormState> loginFormState = GlobalKey<FormState>();
   GlobalKey<FormState> accountFormState = GlobalKey<FormState>();
   GlobalKey<FormState> personalDataFormState = GlobalKey<FormState>();
   GlobalKey<FormState> medicFormState = GlobalKey<FormState>();
-
 	final PageController pageController = PageController();
 
   //Account Tab
@@ -23,6 +29,14 @@ class AuthController extends GetxController {
 
   //Medic Tab
   TextEditingController medicalInsuranceController = TextEditingController();
+
+  @override
+  void onReady() {
+    emailController.text = 'super@dutech.cl';
+    passwordController.text = 'super1';
+
+    super.onReady();
+  }
 
 	nextPage(){
 		currentStep.value++;
@@ -42,6 +56,12 @@ class AuthController extends GetxController {
 		);
 	}
 
+  validateLogin(){
+    if(loginFormState.currentState!.validate()){
+      login();
+    }
+  }
+
   validateAccountTab() {
     if (accountFormState.currentState!.validate()) {
       nextPage();
@@ -57,6 +77,29 @@ class AuthController extends GetxController {
   validateMedicTab() {
     if (medicFormState.currentState!.validate()) {
       Get.offAllNamed('/tabs');
+    }
+  }
+
+  void login() async {
+    isLoading.value = true;
+
+    final response = await _apiService.post('/auth/login', {
+      'email': emailController.text,
+      'password': passwordController.text,
+    });
+
+    if (response.statusCode == 200) {
+      //Guardar token
+      GetStorage().write('token', response.data['token']);
+      GetStorage().write('role', response.data['SuperGod']);
+
+      isLoading.value = false;
+
+      Get.offNamed('/tabs');
+    } else {
+      AlertService().showErrorAlert(message: "Credenciales incorrectas");
+
+      isLoading.value = false;
     }
   }
 

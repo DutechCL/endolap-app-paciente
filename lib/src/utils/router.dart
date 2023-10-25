@@ -6,6 +6,10 @@ import '../screens/index.dart';
 
 class Routes {
 	static final route = [
+    GetPage(
+      name: '/',
+      page: () => const SplashScreen(),
+    ),
 		GetPage(
 			name: '/tabs',
 			page: () => const TabScreen(),

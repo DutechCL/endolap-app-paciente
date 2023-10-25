@@ -1,7 +1,7 @@
 import 'package:endolap_paciente_app/src/constants.dart';
+import 'package:endolap_paciente_app/src/controllers/AuthController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 
 class LoginScreen extends StatelessWidget {
 	const LoginScreen({super.key});
@@ -9,6 +9,7 @@ class LoginScreen extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) {
 		final size = MediaQuery.of(context).size;
+    AuthController authController = Get.put(AuthController());
 
 		return Scaffold(
 			body: Padding(
@@ -19,6 +20,7 @@ class LoginScreen extends StatelessWidget {
 						Text("Iniciar sesión", style: titleStyle()),
 						const SizedBox(height: 30),
 						Form(
+              key: authController.loginFormState,
 							child: Column(
 								crossAxisAlignment: CrossAxisAlignment.start,
 								children: [
@@ -29,23 +31,45 @@ class LoginScreen extends StatelessWidget {
 										decoration: formFieldStyle().copyWith(
 											hintText: "Ingresa tu correo electrónico"
 										),
+                    controller: authController.emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if(!GetUtils.isEmail(value!)){
+                        return 'Ingresa tu correo electrónico';
+                      }
+                      return null;
+                    },
 									),
 									const SizedBox(height: 20),
 									// Password
 									const Text("Contraseña"),
 									const SizedBox(height: 10),
-									TextFormField(
-										decoration: formFieldStyle(),
-									),
+									ObxValue((p0) => TextFormField(
+										decoration: formFieldStyle().copyWith(
+                      suffixIcon: IconButton(
+                        icon: Icon(p0.value ? Icons.visibility : Icons.visibility_off),
+                        onPressed: () => p0.toggle(),
+                      ),
+                    ),
+                    controller: authController.passwordController,
+                    obscureText: p0.value,
+                    validator: (value) {
+                      if(value!.isEmpty){
+                        return 'Ingresa tu contraseña';
+                      }
+                      return null;
+                    },
+									), false.obs),
 									const SizedBox(height: 30),
 
 									Row(
 										children: [
 											// Remember me
-											Checkbox(
-												value: false,
-												onChanged: (value) {},
-											),
+											ObxValue((p0) => Checkbox(
+                        value: p0.value,
+                        onChanged: (value) => p0.toggle(),
+                      ), false.obs),
+
 											const Text("Recordarme"),
 											const Spacer(),
 											// Forgot password
@@ -64,9 +88,7 @@ class LoginScreen extends StatelessWidget {
 											elevation: MaterialStateProperty.all<double>(0),
 										),
 										child: const Text("Iniciar sesión"),
-										onPressed: () {
-											Get.offAllNamed('/tabs');
-										},
+										onPressed: () => authController.validateLogin(),
 									),
 
 									const SizedBox(height: 20),
