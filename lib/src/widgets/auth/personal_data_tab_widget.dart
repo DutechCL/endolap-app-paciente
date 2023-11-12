@@ -5,9 +5,9 @@ import 'package:endolap_paciente_app/src/constants.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class PersonalDataProfileTabWidget extends StatelessWidget {
+class PersonalDataTabWidget extends StatelessWidget {
   final AuthController controller;
-	const PersonalDataProfileTabWidget({super.key, required this.controller});
+	const PersonalDataTabWidget({super.key, required this.controller});
 
 	@override
 	Widget build(BuildContext context) {
@@ -96,6 +96,16 @@ class PersonalDataProfileTabWidget extends StatelessWidget {
             },
           ),
           const SizedBox(height: 20),
+
+          // Submit
+          ElevatedButton(
+            style: accentButtonStyle().copyWith(
+              minimumSize: MaterialStateProperty.all<Size>(const Size(double.infinity, 0)),
+              elevation: MaterialStateProperty.all<double>(0),
+            ),
+            child: const Text("Continuar"),
+            onPressed: () => controller.validatePersonalDataTab(),
+          ),
         ],
       ),
     );

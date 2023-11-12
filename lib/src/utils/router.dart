@@ -14,6 +14,10 @@ class Routes {
       name: '/new_procedure',
       page: () => const NewProcedureScreen(),
     ),
+    GetPage(
+      name: '/procedure-detail',
+      page: () => const ProcedureDetailScreen(),
+    ),
 		GetPage(
 			name: '/settings',
 			page: () => const SettingsScreen(),
@@ -26,5 +30,9 @@ class Routes {
 			name: '/signup',
 			page: () => const SignUpScreen(),
 		),
+    GetPage(
+      name: '/splash',
+      page: () => const SplashScreen(),
+    ),
 	];
 }

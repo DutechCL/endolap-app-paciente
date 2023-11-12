@@ -66,3 +66,5 @@ TextStyle cardTitleStyle() => const TextStyle(
 	fontSize: 16,
 	color: Color(0xff007eb9),
 );
+
+Color primaryColor() => const Color(0xff00d6d6);

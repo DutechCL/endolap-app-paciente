@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../constants.dart';
 
@@ -8,6 +9,9 @@ class HomeScreen extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
+    var  userName = GetStorage().read('user')['name'];
+    print(userName);
+
 		return Scaffold(
 			appBar: AppBar(
 			),
@@ -19,7 +23,7 @@ class HomeScreen extends StatelessWidget {
 					children: [
 						Image.asset('assets/images/doctors.png', width: 400, height: 400,),
 
-						Text('Hola Daniel!', style: titleStyle()),
+						Text('Hola $userName!', style: titleStyle()),
 
 						const SizedBox(height: 20),
 						const Text("En Endolap estamos para ayudarte, cuentanos ¿Qué estás buscando hoy?"),

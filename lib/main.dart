@@ -2,8 +2,13 @@ import 'package:endolap_paciente_app/src/utils/router.dart';
 import 'package:endolap_paciente_app/src/utils/translations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
 	const MyApp({super.key});
@@ -13,7 +18,7 @@ class MyApp extends StatelessWidget {
 		return GetMaterialApp(
 			title: 'Endolap Paciente',
 			getPages: Routes.route,
-			initialRoute: '/login',
+			initialRoute: '/splash',
 			locale: const Locale('es', 'ES'),
 			translations: LanguageTranslations(),
 			fallbackLocale: const Locale('es'),

@@ -27,7 +27,7 @@ class _Pages extends StatelessWidget {
       children: [
         const HomeScreen(),
         ProcedureScreen(),
-        const NotificationScreen(),
+        NotificationScreen(),
         ProfileScreen(),
       ],
     );

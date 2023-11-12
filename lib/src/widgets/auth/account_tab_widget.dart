@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:endolap_paciente_app/src/constants.dart';
 import 'package:get/get.dart';
 
-class AccountTabProfileWidget extends StatelessWidget {
+class AccountTabWidget extends StatelessWidget {
   final AuthController controller;
-	const AccountTabProfileWidget({super.key, required this.controller});
+	const AccountTabWidget({super.key, required this.controller});
 
 	@override
 	Widget build(BuildContext context) {
@@ -72,6 +72,28 @@ class AccountTabProfileWidget extends StatelessWidget {
             ),
 
             const SizedBox(height: 20),
+
+            Row(
+              children: [
+                // Remember me
+                Checkbox(
+                  value: false,
+                  onChanged: (value) {},
+                ),
+                const Text("Acepto términos y condiciones"),
+              ],
+            ),
+            const SizedBox(height: 30),
+
+            // Submit
+            ElevatedButton(
+              style: accentButtonStyle().copyWith(
+                minimumSize: MaterialStateProperty.all<Size>(const Size(double.infinity, 0)),
+                elevation: MaterialStateProperty.all<double>(0),
+              ),
+              child: const Text("Continuar"),
+              onPressed: () => controller.validateAccountTab(),
+            ),
           ],
         )
       ),

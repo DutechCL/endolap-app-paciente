@@ -1,7 +1,7 @@
 import 'package:endolap_paciente_app/src/controllers/AuthController.dart';
-import 'package:endolap_paciente_app/src/widgets/profile/account_tab_widget.dart';
-import 'package:endolap_paciente_app/src/widgets/profile/medic_tab_widget.dart';
-import 'package:endolap_paciente_app/src/widgets/profile/personal_data_tab_widget.dart';
+import 'package:endolap_paciente_app/src/widgets/auth/account_tab_widget.dart';
+import 'package:endolap_paciente_app/src/widgets/auth/medic_tab_widget.dart';
+import 'package:endolap_paciente_app/src/widgets/auth/personal_data_tab_widget.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,6 +51,7 @@ class SignUpScreen extends StatelessWidget {
 						ExpandablePageView(
 							controller: controller.pageController,
 							allowImplicitScrolling: true,
+              // physics: const NeverScrollableScrollPhysics(),
 							children: [
 								SingleChildScrollView(
                   primary: true,

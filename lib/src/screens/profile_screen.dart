@@ -27,50 +27,53 @@ class ProfileScreen extends StatelessWidget {
 						)					
 					],
 				),
-				body: Column(
-					children: [
-						_buildHeader(controller),
+				body: SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildHeader(controller),
 
-						Container(
-							padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-							child: SegmentedTabControl(
-								controller: controller.tabController,
-								indicatorColor: const Color(0xff00d6d6),
-								backgroundColor: const Color(0xfff5f5f5),
-								tabTextColor: const Color(0xff777777),
-								tabs: const [
-									SegmentTab(
-										label: 'Cuenta',
-									),
-									SegmentTab(
-										label: 'Datos personales',
-									),
-									SegmentTab(
-										label: 'Ficha médica',
-									),
-								],
-							),
-						),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                child: SegmentedTabControl(
+                  controller: controller.tabController,
+                  indicatorColor: const Color(0xff00d6d6),
+                  backgroundColor: const Color(0xfff5f5f5),
+                  tabTextColor: const Color(0xff777777),
+                  tabs: const [
+                    SegmentTab(
+                      label: 'Cuenta',
+                    ),
+                    SegmentTab(
+                      label: 'Datos personales',
+                    ),
+                    SegmentTab(
+                      label: 'Ficha médica',
+                    ),
+                  ],
+                ),
+              ),
 
-						ExpandablePageView(
-							controller: controller.pageController,
-							children: [
-								SingleChildScrollView(
-									padding: const EdgeInsets.symmetric(horizontal: 20),
-									child: AccountTabWidget(controller: authController),
-								),
-								SingleChildScrollView(
-									padding: const EdgeInsets.symmetric(horizontal: 20),
-									child: PersonalDataTabWidget(controller: authController),
-								),
-								SingleChildScrollView(
-									padding: const EdgeInsets.symmetric(horizontal: 20),
-									child: MedicTabWidget(controller: authController),
-								),
-							],
-						),
-					],
-				),
+              ExpandablePageView(
+                controller: controller.pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: AccountTabProfileWidget(controller: authController),
+                  ),
+                  SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: PersonalDataProfileTabWidget(controller: authController),
+                  ),
+                  SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: MedicTabProfileWidget(controller: authController),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
 			)
 		);
 	}

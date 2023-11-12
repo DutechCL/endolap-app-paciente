@@ -1,8 +1,20 @@
 import 'package:endolap_paciente_app/src/constants.dart';
+import 'package:endolap_paciente_app/src/models/procedure_type_model.dart';
+import 'package:endolap_paciente_app/src/models/sugery_type_model.dart';
+import 'package:endolap_paciente_app/src/services/alert_service.dart';
+import 'package:endolap_paciente_app/src/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class NewProcedureController extends GetxController {
+  final ApiService _apiService = ApiService();
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final PageController pageController = PageController();
+  var isLoading = false.obs;
+  var isSheduleLoading = false.obs;
+  var isReadOnly = false.obs;
+  
   GlobalKey<FormState> step1FormState = GlobalKey<FormState>();
   GlobalKey<FormState> step2FormState = GlobalKey<FormState>();
   GlobalKey<FormState> step3FormState = GlobalKey<FormState>();
@@ -12,6 +24,18 @@ class NewProcedureController extends GetxController {
   TextEditingController procedureDateController = TextEditingController();
   TextEditingController procedureTimeController = TextEditingController();
 
+  Rx<List<ProcedureTypeModel>> procedureTypes = Rx<List<ProcedureTypeModel>>([]);
+  Rx<List<SugeryTypeModel>> surgeryOptions = Rx<List<SugeryTypeModel>>([]);
+  
+  var selectedProcedureType = ProcedureTypeModel().obs;
+  var selectedSugeryTupe = SugeryTypeModel().obs;
+
+  Rx<List<String>> shedule = Rx<List<String>>([]);
+  Rx<DateTime> selectedDate = DateTime.now().obs;
+
+  var selectedHour = ''.obs;
+  var procedureIdCreated = 0.obs;
+
   //Step 3
   TextEditingController nameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -19,53 +43,96 @@ class NewProcedureController extends GetxController {
   TextEditingController birthDateController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
 
+  var listProfessionalsWidget = List<Widget>.empty().obs;
+  var isLoadingTeam = false.obs;
+
   var selectedStep = 2.obs;
 	var upperBound = 3.obs;
 	var currentStep = 1.obs;
-	final PageController pageController = PageController();
 
-	List<DropdownMenuItem<int>> getProcedureType() {
-		return const [
-			DropdownMenuItem(
-				value: 1,
-				child: Text('Endoscopia'),
-			),
-			DropdownMenuItem(
-				value: 2,
-				child: Text('Colonoscopia'),
-			),
-			DropdownMenuItem(
-				value: 3,
-				child: Text('Cirugia menor'),
-			),
-			DropdownMenuItem(
-				value: 4,
-				child: Text('Cirugia mayor'),
-			),
-		];
+  @override
+  void onReady() async {
+    currentStep.value = 1;
+    getProcedureTypes();
+    getSurgeryTypes();
+    
+    currentStep.listen((value) {
+      if(value == 1){
+        
+      }else if(value == 2){
+        fetchShedule(formatter.format(selectedDate.value));
+      }
+    });
+
+    selectedHour.listen((value) async {
+      if(value != ""){
+        if (procedureIdCreated.value == 0) {
+          // await saveProcedureHeader();
+        } else {
+          // await updateProcedure();
+        }
+      }
+    });
+
+    super.onReady();
+  }
+
+  void getProcedureTypes() async {
+    var response = await _apiService.getWithToken('/types/index');
+
+    if (response.statusCode == 200) {
+      procedureTypes.value = response.data['data'].map<ProcedureTypeModel>((e) => ProcedureTypeModel.fromJson(e)).toList();
+    } else {
+      AlertService().showErrorAlert(message: 'Error al obtener los tipos de procedimientos');
+    }
 	}
 
-	List<DropdownMenuItem<int>> getSurgeryTypes() {
-		return const [
-			DropdownMenuItem(
-				value: 1,
-				child: Text('Colecistectomía'),
-			),
-			DropdownMenuItem(
-				value: 2,
-				child: Text('Hernioplastía'),
-			),
-			DropdownMenuItem(
-				value: 3,
-				child: Text('Baloón intragástrico elipse'),
-			),
-			DropdownMenuItem(
-				value: 4,
-				child: Text('Quiste pilonidal'),
-			),
-		];
+	void getSurgeryTypes() {
+    surgeryOptions.value = [
+      SugeryTypeModel(
+        id: 1,
+        name: 'Colecistectomía',
+        slug: 'colecistectomia',
+      ),
+      SugeryTypeModel(
+        id: 2,
+        name: 'Hernioplastía',
+        slug: 'hernioplastia',
+      ),
+      SugeryTypeModel(
+        id: 3,
+        name: 'Baloón intragástrico elipse',
+        slug: 'balon-intragastrico-elipse',
+      ),
+      SugeryTypeModel(
+        id: 4,
+        name: 'Quiste pilonidal',
+        slug: 'quiste-pilonidal',
+      ),
+    ];
 	}
 
+  void fetchShedule(String date) async {
+    if(isReadOnly.value == true) return;
+
+    isSheduleLoading.value = true;
+    var response = await _apiService.getWithToken('/scheduleProcedure/availableTime/$date/1');
+
+    if (response.statusCode == 200) {
+      if (response.data['status'] != false) {
+        var data = response.data['data'] as Map<String, dynamic>;
+
+        var values = data.values.toList();
+
+        shedule.value = values.map<String>((e) => e.toString()).toList();
+      }
+    } else {
+      AlertService().showErrorAlert(message: 'Error al obtener los pacientes');
+    }
+
+    isSheduleLoading.value = false;
+  }
+  
 	nextPage(){
 		currentStep.value++;
 

@@ -1,7 +1,13 @@
+import 'package:endolap_paciente_app/src/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class AuthController extends GetxController {
+  final ApiService _apiService = ApiService();
+  GlobalKey<FormState> loginFormState = GlobalKey<FormState>();
+  var isLoading = false.obs;
+  
 	var currentStep = 1.obs;
   GlobalKey<FormState> accountFormState = GlobalKey<FormState>();
   GlobalKey<FormState> personalDataFormState = GlobalKey<FormState>();
@@ -23,6 +29,20 @@ class AuthController extends GetxController {
 
   //Medic Tab
   TextEditingController medicalInsuranceController = TextEditingController();
+  var hasChronicDisease = 1.obs;
+  var haveMedication = 1.obs;
+  var medicationController = TextEditingController();
+  var hasSurgery = 1.obs;
+  var hasAllergy = 1.obs;
+  var selectedBloodType = ''.obs;
+
+  @override
+  void onReady() {
+    emailController.text = 'super@dutech.cl';
+    passwordController.text = 'super1';
+
+    super.onReady();
+  }
 
 	nextPage(){
 		currentStep.value++;
@@ -60,23 +80,58 @@ class AuthController extends GetxController {
     }
   }
 
+  validateLogin(){
+    if(loginFormState.currentState!.validate()){
+      login();
+    }
+  }
+
+  void login() async {
+    isLoading.value = true;
+
+    final response = await _apiService.post('/auth/login', {
+      'email': emailController.text,
+      'password': passwordController.text,
+    });
+
+    if (response.statusCode == 200) {
+      //Guardar token
+      GetStorage().write('token', response.data['token']);
+      GetStorage().write('role', response.data['role']);
+      GetStorage().write('user', response.data['user']);
+
+      isLoading.value = false;
+
+      Get.offNamed('/tabs');
+    } else {
+      Get.snackbar(
+        'Error',
+        'Credenciales incorrectas',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+
+      isLoading.value = false;
+    }
+  }
+
   @override
   void onClose() {
-    pageController.dispose();
-    //Account Tab
-    emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
+    // pageController.dispose();
+    // //Account Tab
+    // emailController.dispose();
+    // passwordController.dispose();
+    // confirmPasswordController.dispose();
 
-    //Personal Data Tab
-    nameController.dispose();
-    lastNameController.dispose();
-    ciController.dispose();
-    birthDateController.dispose();
-    phoneNumberController.dispose();
+    // //Personal Data Tab
+    // nameController.dispose();
+    // lastNameController.dispose();
+    // ciController.dispose();
+    // birthDateController.dispose();
+    // phoneNumberController.dispose();
 
-    //Medic Tab
-    medicalInsuranceController.dispose();
+    // //Medic Tab
+    // medicalInsuranceController.dispose();
 
     super.onClose();
   }

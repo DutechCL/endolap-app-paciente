@@ -1,10 +1,14 @@
+import 'package:endolap_paciente_app/src/controllers/SettingsController.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SettingsScreen extends StatelessWidget {
 	const SettingsScreen({super.key});
 
 	@override
 	Widget build(BuildContext context) {
+    final controller = Get.put(SettingsController());
+    
 		final decoration = BoxDecoration(
 			borderRadius: BorderRadius.circular(10),
 			color: Colors.white,
@@ -63,18 +67,22 @@ class SettingsScreen extends StatelessWidget {
 							],
 						),
 					),
-					Container(
-						padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-						margin: const EdgeInsets.only(bottom: 23),
-						decoration: decoration,
-						child: Row(
-							children: [
-								Icon(Icons.logout_rounded, color: textColor),
-								const SizedBox(width: 10),
-								Text('Cerrar sesión', style: TextStyle(color: textColor)),
-							],
-						),
-					),
+					
+          GestureDetector(
+            onTap: () => controller.logout(),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+              margin: const EdgeInsets.only(bottom: 23),
+              decoration: decoration,
+              child: Row(
+                children: [
+                  Icon(Icons.logout_rounded, color: textColor),
+                  const SizedBox(width: 10),
+                  Text('Cerrar sesión', style: TextStyle(color: textColor)),
+                ],
+              ),
+            ),
+          )
 				],
 			)
 		);

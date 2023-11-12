@@ -46,7 +46,14 @@ dependencies:
   animated_segmented_tab_control: ^1.0.1
   progress_bar_steppers: ^0.0.2+2
   expandable_page_view: ^1.0.17
+  dio: ^5.3.3
+  get_storage: ^2.1.1
   intl: ^0.18.1
+  loader_skeleton: ^0.0.4
+  select_dialog: ^2.0.1
+  chips_choice: ^3.0.1
+  flutter_staggered_animations: ^1.1.1
+  lottie: ^2.7.0
 
 dev_dependencies:
   flutter_test:

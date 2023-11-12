@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:endolap_paciente_app/src/constants.dart';
 import 'package:get/get.dart';
 
-class MedicTabProfileWidget extends StatelessWidget {
+class MedicTabWidget extends StatelessWidget {
   final AuthController controller;
-	const MedicTabProfileWidget({super.key, required this.controller});
+	const MedicTabWidget({super.key, required this.controller});
 
 	@override
 	Widget build(BuildContext context) {
@@ -53,7 +53,15 @@ class MedicTabProfileWidget extends StatelessWidget {
             onChanged: (value) => controller.hasAllergy.value = value
           )),
 
-          const SizedBox(height: 20),
+          // Submit
+          ElevatedButton(
+            style: accentButtonStyle().copyWith(
+              minimumSize: MaterialStateProperty.all<Size>(const Size(double.infinity, 0)),
+              elevation: MaterialStateProperty.all<double>(0),
+            ),
+            child: const Text("Continuar"),
+            onPressed: () => controller.validateMedicTab(),
+          ),
         ],
       ),
     );
@@ -71,7 +79,6 @@ _buildRadioGroup(int groupValue, String title, {required Function onChanged}){
       Row(
         children: [
           Radio.adaptive(
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             value: 1,
             groupValue: groupValue,
             onChanged: (value) => onChanged,
