@@ -1,3 +1,4 @@
+import 'package:endolap_paciente_app/src/services/alert_service.dart';
 import 'package:endolap_paciente_app/src/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,14 +6,14 @@ import 'package:get_storage/get_storage.dart';
 
 class AuthController extends GetxController {
   final ApiService _apiService = ApiService();
-  GlobalKey<FormState> loginFormState = GlobalKey<FormState>();
-  var isLoading = false.obs;
   
 	var currentStep = 1.obs;
+  var isLoading = false.obs;
+
+  GlobalKey<FormState> loginFormState = GlobalKey<FormState>();
   GlobalKey<FormState> accountFormState = GlobalKey<FormState>();
   GlobalKey<FormState> personalDataFormState = GlobalKey<FormState>();
   GlobalKey<FormState> medicFormState = GlobalKey<FormState>();
-
 	final PageController pageController = PageController();
 
   //Account Tab
@@ -62,6 +63,12 @@ class AuthController extends GetxController {
 		);
 	}
 
+  validateLogin(){
+    if(loginFormState.currentState!.validate()){
+      login();
+    }
+  }
+
   validateAccountTab() {
     if (accountFormState.currentState!.validate()) {
       nextPage();
@@ -77,12 +84,6 @@ class AuthController extends GetxController {
   validateMedicTab() {
     if (medicFormState.currentState!.validate()) {
       Get.offAllNamed('/tabs');
-    }
-  }
-
-  validateLogin(){
-    if(loginFormState.currentState!.validate()){
-      login();
     }
   }
 
@@ -104,12 +105,7 @@ class AuthController extends GetxController {
 
       Get.offNamed('/tabs');
     } else {
-      Get.snackbar(
-        'Error',
-        'Credenciales incorrectas',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      AlertService().showErrorAlert(message: "Credenciales incorrectas");
 
       isLoading.value = false;
     }

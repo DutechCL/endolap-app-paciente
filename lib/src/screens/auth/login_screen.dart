@@ -4,7 +4,6 @@ import 'package:endolap_paciente_app/src/controllers/AuthController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class LoginScreen extends StatelessWidget {
 	const LoginScreen({super.key});
 
