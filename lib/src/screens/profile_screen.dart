@@ -8,11 +8,12 @@ import 'package:endolap_paciente_app/src/widgets/profile/personal_data_tab_widge
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
+// ignore: must_be_immutable
 class ProfileScreen extends StatelessWidget {
 	ProfileScreen({super.key});
 	ProfileController controller = Get.put(ProfileController());
-  AuthController authController = Get.put(AuthController());
 
 	@override
 	Widget build(BuildContext context) {
@@ -59,15 +60,15 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: AccountTabProfileWidget(controller: authController),
+                    child: AccountTabProfileWidget(controller: controller),
                   ),
                   SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: PersonalDataProfileTabWidget(controller: authController),
+                    child: PersonalDataProfileTabWidget(controller: controller),
                   ),
                   SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: MedicTabProfileWidget(controller: authController),
+                    child: MedicTabProfileWidget(controller: controller),
                   ),
                 ],
               ),
@@ -79,6 +80,13 @@ class ProfileScreen extends StatelessWidget {
 	}
 
   _buildHeader(ProfileController controller){
+    var user = GetStorage().read('user');
+
+    var name = user['name'] ?? '';
+    var lastName = user['last_name'] ?? '';
+    var email = user['email'] ?? '';
+    var phone = user['phone'] ?? '';
+    
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -96,31 +104,31 @@ class ProfileScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Row(
+          Row(
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 30,
                 backgroundColor: Colors.grey,
               ),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Daniel Palma', style: TextStyle(fontSize: 20, color: Color(0xff007eb9), fontWeight: FontWeight.bold)),
-                  SizedBox(height: 5),
+                  Text("$name $lastName", style: const TextStyle(fontSize: 20, color: Color(0xff007eb9), fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
-                      Icon(Icons.email_outlined, size: 16, color: Colors.grey),
-                      SizedBox(width: 5),
-                      Text('daniel.palma@gmail.com', style: TextStyle(fontSize: 16, color: Colors.grey)),
+                      const Icon(Icons.email_outlined, size: 16, color: Colors.grey),
+                      const SizedBox(width: 5),
+                      Text("$email", style: const TextStyle(fontSize: 16, color: Colors.grey)),
                     ],
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
-                      Icon(Icons.phone_outlined, size: 16, color: Colors.grey),
-                      SizedBox(width: 5),
-                      Text('+56959592626', style: TextStyle(fontSize: 16, color: Colors.grey)),
+                      const Icon(Icons.phone_outlined, size: 16, color: Colors.grey),
+                      const SizedBox(width: 5),
+                      Text("$phone", style: const TextStyle(fontSize: 16, color: Colors.grey)),
                     ],
                   ),
                 ],
