@@ -38,5 +38,9 @@ class Routes {
       name: '/splash',
       page: () => const SplashScreen(),
     ),
+   	GetPage(
+			name: '/auth/recuperate',
+			page: () => const RecuperateScreen(),
+		),
 	];
 }

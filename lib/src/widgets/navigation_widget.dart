@@ -25,10 +25,10 @@ class NavigationWidget extends StatelessWidget {
             icon: Icon(Icons.date_range_outlined),
             label: 'Procedimiento',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_none_rounded),
-            label: 'Notificaciones',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.notifications_none_rounded),
+          //   label: 'Notificaciones',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline_rounded),
             label: 'Perfil',

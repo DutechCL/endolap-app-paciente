@@ -13,7 +13,7 @@ class ProcedureStep2Widget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-			child: Form(
+      child: Form(
         key: controller.step2FormState,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
@@ -21,21 +21,22 @@ class ProcedureStep2Widget extends StatelessWidget {
           children: [
             const Text('Seleccione el día'),
             const SizedBox(height: 5),
-
             Obx(() {
               if (controller.isReadOnly.value) {
                 return Row(
                   children: [
-                    Icon(Icons.date_range_outlined, color: primaryColor(), size: 17),
+                    Icon(Icons.date_range_outlined,
+                        color: primaryColor(), size: 17),
                     const SizedBox(width: 7),
-
                     Chip(
-                      label: Text(DateFormat('dd/MM/yyyy').format(controller.selectedDate.value), style: const TextStyle(color: Colors.white)),
-                      backgroundColor: primaryColor(),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      )
-                    )
+                        label: Text(
+                            DateFormat('dd/MM/yyyy')
+                                .format(controller.selectedDate.value),
+                            style: const TextStyle(color: Colors.white)),
+                        backgroundColor: primaryColor(),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ))
                   ],
                 );
               }
@@ -43,24 +44,24 @@ class ProcedureStep2Widget extends StatelessWidget {
               return Card(
                 elevation: 3,
                 child: CalendarDatePicker2(
-                  config: CalendarDatePicker2Config(),
+                  config: CalendarDatePicker2Config(
+                    firstDate: DateTime.now(),
+                  ),
                   value: [controller.selectedDate.value],
                   onValueChanged: (value) {
                     controller.selectedDate.value = value[0]!;
 
                     DateFormat formatter = DateFormat('yyyy-MM-dd');
 
-                    controller.fetchShedule(formatter.format(controller.selectedDate.value));
+                    controller.fetchShedule(
+                        formatter.format(controller.selectedDate.value));
                   },
                 ),
               );
             }),
-
             const SizedBox(height: 20),
-
             const Text('Seleccione una hora disponible'),
             const SizedBox(height: 5),
-            
             Obx(() {
               if (controller.isSheduleLoading.value == true) {
                 return const Center(child: CircularProgressIndicator());
@@ -69,21 +70,23 @@ class ProcedureStep2Widget extends StatelessWidget {
               if (controller.isReadOnly.value) {
                 return Row(
                   children: [
-                    Icon(Icons.access_time_outlined, color: primaryColor(), size: 17),
+                    Icon(Icons.access_time_outlined,
+                        color: primaryColor(), size: 17),
                     const SizedBox(width: 7),
-
                     Chip(
-                      label: Text(DateFormat('dd/MM/yyyy').format(controller.selectedDate.value), style: const TextStyle(color: Colors.white)),
-                      backgroundColor: primaryColor(),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      )
-                    )
+                        label: Text(
+                            DateFormat('dd/MM/yyyy')
+                                .format(controller.selectedDate.value),
+                            style: const TextStyle(color: Colors.white)),
+                        backgroundColor: primaryColor(),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ))
                   ],
                 );
               }
 
-              if(controller.shedule.value.isNotEmpty){
+              if (controller.shedule.value.isNotEmpty) {
                 return ChipsChoice<String>.single(
                   value: controller.selectedHour.value,
                   wrapped: true,
@@ -99,24 +102,22 @@ class ProcedureStep2Widget extends StatelessWidget {
                     controller.selectedHour.value = val;
                   },
                 );
-              }else{
+              } else {
                 return const Center(child: Text('No hay horas disponibles'));
               }
             }),
-
             const SizedBox(height: 15),
-
             const SizedBox(height: 20),
             ElevatedButton(
-              style: accentButtonStyle().copyWith(
-                minimumSize: MaterialStateProperty.all<Size>(const Size(double.infinity, 50)),
-              ),
-              child: const Text('Continuar'),
-              onPressed: () => controller.validateStep2()
-            ),
+                style: accentButtonStyle().copyWith(
+                  minimumSize: MaterialStateProperty.all<Size>(
+                      const Size(double.infinity, 50)),
+                ),
+                child: const Text('Continuar'),
+                onPressed: () => controller.validateStep2()),
           ],
         ),
       ),
-		);
+    );
   }
 }

@@ -9,3 +9,4 @@ export './auth/signup_screen.dart';
 export './settings_screen.dart';
 export './procedure_detail_screen.dart';
 export './splash/splash_screen.dart';
+export './auth/recuperate_screen.dart';

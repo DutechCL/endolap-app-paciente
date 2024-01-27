@@ -1,10 +1,10 @@
-import 'package:endolap_paciente_app/src/controllers/AuthController.dart';
+import 'package:endolap_paciente_app/src/controllers/SigninController.dart';
 import 'package:flutter/material.dart';
 import 'package:endolap_paciente_app/src/constants.dart';
 import 'package:get/get.dart';
 
 class MedicTabWidget extends StatelessWidget {
-  final AuthController controller;
+  final SigninController controller;
 	const MedicTabWidget({super.key, required this.controller});
 
 	@override

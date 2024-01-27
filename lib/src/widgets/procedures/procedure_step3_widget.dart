@@ -28,6 +28,7 @@ class ProcedureStep3Widget extends StatelessWidget {
               }
               return null;
             },
+            enabled: false,
           ),
 
           const SizedBox(height: 20),
@@ -43,6 +44,7 @@ class ProcedureStep3Widget extends StatelessWidget {
               }
               return null;
             },
+            enabled: false,
           ),
 
           const SizedBox(height: 20),
@@ -58,6 +60,7 @@ class ProcedureStep3Widget extends StatelessWidget {
               }
               return null;
             },
+            enabled: false,
           ),
 
           const SizedBox(height: 20),
@@ -83,6 +86,7 @@ class ProcedureStep3Widget extends StatelessWidget {
               }
               return null;
             },
+            enabled: false,
           ),
 
           const SizedBox(height: 20),
@@ -98,6 +102,7 @@ class ProcedureStep3Widget extends StatelessWidget {
               }
               return null;
             },
+            enabled: false,
           ),
 
           const SizedBox(height: 20),

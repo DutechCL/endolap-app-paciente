@@ -1,6 +1,7 @@
 import 'package:endolap_paciente_app/src/constants.dart';
 import 'package:endolap_paciente_app/src/controllers/NewProcedureController.dart';
 import 'package:endolap_paciente_app/src/models/procedure_type_model.dart';
+import 'package:endolap_paciente_app/src/models/prevision_model.dart';
 import 'package:endolap_paciente_app/src/models/sugery_type_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,29 @@ class ProcedureStep1Widget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              const SizedBox(height: 20),
+
+              const Text('Previsión médica'),
+              const SizedBox(height: 5),
+
+              Obx(() => DropdownButtonFormField<PrevisionTypeModel>(
+                onChanged: (value) => controller.selectedPrevisionType.value = value!,
+                decoration: formFieldStyle().copyWith(
+                  labelText: 'Seleccione una opción',
+                ),
+                validator: (value) {
+                  if (value == null) {
+                    return 'Este campo es obligatorio';
+                  }
+                  return null;
+                },
+                items: controller.previsionOptions.value.map((e) => DropdownMenuItem(
+                  value: e,
+                  child: Text(e.name!),
+                )).toList(),
+                value: (controller.selectedPrevisionType.value.id == null) ? null : controller.selectedPrevisionType.value,
+              )),
+
               const SizedBox(height: 20),
 
               const Text('Tipo de procedimiento'),

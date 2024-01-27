@@ -7,11 +7,13 @@ import 'package:intl/intl.dart';
 
 class PersonalDataProfileTabWidget extends StatelessWidget {
   final ProfileController controller;
-	const PersonalDataProfileTabWidget({super.key, required this.controller});
+  const PersonalDataProfileTabWidget({super.key, required this.controller});
 
-	@override
-	Widget build(BuildContext context) {
-		return Form(
+  @override
+  Widget build(BuildContext context) {
+    controller.setUser();
+
+    return Form(
       key: controller.personalDataFormState,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
@@ -20,7 +22,7 @@ class PersonalDataProfileTabWidget extends StatelessWidget {
           const Text('Nombre'),
           const SizedBox(height: 5),
           TextFormField(
-            decoration: formFieldStyle().copyWith(hintText: "Daniel Benjamin"),
+            decoration: formFieldStyle().copyWith(),
             controller: controller.nameController,
             validator: (value) {
               if (value!.isEmpty) {
@@ -30,7 +32,6 @@ class PersonalDataProfileTabWidget extends StatelessWidget {
             },
           ),
           const SizedBox(height: 20),
-
           const Text('Apellido'),
           const SizedBox(height: 5),
           TextFormField(
@@ -44,11 +45,10 @@ class PersonalDataProfileTabWidget extends StatelessWidget {
             },
           ),
           const SizedBox(height: 20),
-
-          const Text('Cédula de indentidad*'),
+          const Text('Cédula de indentidad'),
           const SizedBox(height: 5),
           TextFormField(
-            decoration: formFieldStyle().copyWith(hintText: "19226226-2n"),
+            decoration: formFieldStyle().copyWith(hintText: "19226226-2"),
             controller: controller.ciController,
             validator: (value) {
               if (value!.isEmpty) {
@@ -58,7 +58,6 @@ class PersonalDataProfileTabWidget extends StatelessWidget {
             },
           ),
           const SizedBox(height: 20),
-
           const Text('Fecha de nacimiento'),
           const SizedBox(height: 5),
           TextFormField(
@@ -70,7 +69,8 @@ class PersonalDataProfileTabWidget extends StatelessWidget {
                 mode: CupertinoDatePickerMode.date,
                 dateOrder: DatePickerDateOrder.dmy,
                 onDateTimeChanged: (DateTime newDate) {
-                  controller.birthDateController.text = DateFormat('dd-MM-yyyy').format(newDate);
+                  controller.birthDateController.text =
+                      DateFormat('dd-MM-yyyy').format(newDate);
                 },
               ),
             ),
@@ -82,7 +82,6 @@ class PersonalDataProfileTabWidget extends StatelessWidget {
             },
           ),
           const SizedBox(height: 20),
-
           const Text('Número de contacto'),
           const SizedBox(height: 5),
           TextFormField(
@@ -99,7 +98,7 @@ class PersonalDataProfileTabWidget extends StatelessWidget {
         ],
       ),
     );
-	}
+  }
 
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(

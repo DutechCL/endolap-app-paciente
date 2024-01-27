@@ -1,10 +1,10 @@
-import 'package:endolap_paciente_app/src/controllers/AuthController.dart';
+import 'package:endolap_paciente_app/src/controllers/SigninController.dart';
 import 'package:flutter/material.dart';
 import 'package:endolap_paciente_app/src/constants.dart';
 import 'package:get/get.dart';
 
 class AccountTabWidget extends StatelessWidget {
-  final AuthController controller;
+  final SigninController controller;
 	const AccountTabWidget({super.key, required this.controller});
 
 	@override
@@ -71,18 +71,18 @@ class AccountTabWidget extends StatelessWidget {
               },
             ),
 
-            const SizedBox(height: 20),
+            // const SizedBox(height: 20),
 
-            Row(
-              children: [
-                // Remember me
-                Checkbox(
-                  value: false,
-                  onChanged: (value) {},
-                ),
-                const Text("Acepto términos y condiciones"),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     // Remember me
+            //     Checkbox(
+            //       value: false,
+            //       onChanged: (value) {},
+            //     ),
+            //     const Text("Acepto términos y condiciones"),
+            //   ],
+            // ),
             const SizedBox(height: 30),
 
             // Submit

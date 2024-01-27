@@ -1,4 +1,4 @@
-import 'package:endolap_paciente_app/src/controllers/AuthController.dart';
+import 'package:endolap_paciente_app/src/controllers/SigninController.dart';
 import 'package:endolap_paciente_app/src/widgets/auth/account_tab_widget.dart';
 import 'package:endolap_paciente_app/src/widgets/auth/medic_tab_widget.dart';
 import 'package:endolap_paciente_app/src/widgets/auth/personal_data_tab_widget.dart';
@@ -15,7 +15,7 @@ class SignUpScreen extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) {
 		final size = MediaQuery.of(context).size;
-		AuthController controller = Get.put(AuthController());
+		SigninController controller = Get.put(SigninController());
 
 		return Scaffold(
 			appBar: AppBar(
@@ -42,9 +42,9 @@ class SignUpScreen extends StatelessWidget {
 								StepperData(
 									label: "Datos personales",
 								),
-								StepperData(
-									label: "Ficha clínica",
-								),
+								// StepperData(
+								// 	label: "Ficha clínica",
+								// ),
 							],
 						)),
 
@@ -61,10 +61,10 @@ class SignUpScreen extends StatelessWidget {
                   primary: true,
 									child: PersonalDataTabWidget(controller: controller),
 								),
-								SingleChildScrollView(
-                  primary: true,
-									child: MedicTabWidget(controller: controller),
-								),
+								// SingleChildScrollView(
+                //   primary: true,
+								// 	child: MedicTabWidget(controller: controller),
+								// ),
 							],
 						)
 					],

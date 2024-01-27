@@ -29,7 +29,7 @@ class ProcedureListController extends GetxController {
   fetchProcedureList() async {
     isLoading.value = true;
 
-    final response = await _apiService.getWithToken('/scheduleProcedure/index?search=${search.value}');
+    final response = await _apiService.getWithToken('/scheduleProcedure/index');
 
     if (response.statusCode == 200) {
       procedureList.value = response.data['data'].map<ProcedureListModel>((json) => ProcedureListModel.fromJson(json)).toList();

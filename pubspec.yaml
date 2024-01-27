@@ -54,10 +54,15 @@ dependencies:
   chips_choice: ^3.0.1
   flutter_staggered_animations: ^1.1.1
   lottie: ^2.7.0
+  url_launcher: ^6.1.14
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons:
+
+
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -65,6 +70,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+
+flutter_icons:
+ android: "launcher_icon"
+ ios: true
+ image_path: "assets/icon/logo.png"
+ adaptive_icon_background: "assets/icon/logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
