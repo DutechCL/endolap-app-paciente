@@ -142,19 +142,7 @@ class ProfileScreen extends StatelessWidget {
               )
             ],
           ),
-          const SizedBox(height: 20),
-          OutlinedButton(
-            style: outlineButtonStyle().copyWith(
-              minimumSize: MaterialStateProperty.all<Size>(
-                  const Size(double.infinity, 50)),
-              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(vertical: 5)),
-            ),
-            onPressed: () {
-              controller.updateUser();
-            },
-            child: const Text('Editar perfil', style: TextStyle(fontSize: 18)),
-          )
+          const SizedBox(height: 10),
         ],
       ),
     );

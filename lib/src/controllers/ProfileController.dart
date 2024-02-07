@@ -102,14 +102,7 @@ class ProfileController extends GetxController
   }
 
   void updateUser() async {
-    if (emailController.text.isEmpty ||
-        passwordController.text.isEmpty ||
-        confirmPasswordController.text.isEmpty ||
-        nameController.text.isEmpty ||
-        lastNameController.text.isEmpty ||
-        ciController.text.isEmpty ||
-        birthDateController.text.isEmpty ||
-        phoneNumberController.text.isEmpty) {
+    if (emailController.text.isEmpty) {
       AlertService().showErrorAlert(message: "Debe ingresar todos los campos");
       isLoading.value = false;
       return;
@@ -138,8 +131,8 @@ class ProfileController extends GetxController
     if (response.statusCode == 200) {
       AlertService()
           .showSuccessAlert(message: "Usuario actualizado correctamente");
-      GetStorage().remove('token');
-      Get.offAllNamed('/auth/login');
+      // GetStorage().remove('token');
+      // Get.offAllNamed('/auth/login');
     } else {
       isLoading.value = false;
       AlertService().showErrorAlert(message: "Credenciales incorrectas");
