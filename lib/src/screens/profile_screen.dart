@@ -13,10 +13,11 @@ import 'package:get_storage/get_storage.dart';
 // ignore: must_be_immutable
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
-  ProfileController controller = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
+  ProfileController controller = Get.put(ProfileController());
+
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(

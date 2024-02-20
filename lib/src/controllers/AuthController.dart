@@ -101,6 +101,13 @@ class AuthController extends GetxController {
       GetStorage().write('role', response.data['role']);
       GetStorage().write('user', response.data['user']);
 
+      GetStorage().write('medical_forecast', response.data['user']['clinical_record']['medical_forecast']);
+      GetStorage().write('blood_group', response.data['user']['clinical_record']['blood_group']);
+      GetStorage().write('chronic_disease', response.data['user']['clinical_record']['chronic_disease']);
+      GetStorage().write('take_medication', response.data['user']['clinical_record']['take_medication']);
+      GetStorage().write('surgical_history', response.data['user']['clinical_record']['surgical_history']);
+      GetStorage().write('have_allergies', response.data['user']['clinical_record']['have_allergies']);
+
       isLoading.value = false;
 
       Get.offNamed('/tabs');

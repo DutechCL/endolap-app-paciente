@@ -35,10 +35,10 @@ class ProfileController extends GetxController
 
   // Medic Tab
   TextEditingController medicalInsuranceController = TextEditingController();
-  var hasChronicDisease = false.obs; // Use RxBool instead of RxInt
-  var haveMedication = false.obs; // Use RxBool instead of RxInt
-  var hasSurgery = false.obs; // Use RxBool instead of RxInt
-  var hasAllergy = false.obs; // Use RxBool instead of RxInt
+  var hasChronicDisease = false.obs;
+  var haveMedication = false.obs;
+  var hasSurgery = false.obs;
+  var hasAllergy = false.obs;
   var selectedBloodType = ''.obs;
 
   TextEditingController chronicDiseaseController = TextEditingController();
@@ -59,12 +59,12 @@ class ProfileController extends GetxController
         curve: Curves.easeInOut,
       );
     });
-    setUser();
-    hasChronicDisease.value = false; // Use RxBool instead of RxInt
-    haveMedication.value = false; // Use RxBool instead of RxInt
-    hasSurgery.value = false; // Use RxBool instead of RxInt
-    hasAllergy.value = false;
     getPrevisionTypes();
+    setUser();
+    hasChronicDisease.value = false;
+    haveMedication.value = false;
+    hasSurgery.value = false;
+    hasAllergy.value = false;
     super.onReady();
   }
 
@@ -75,6 +75,12 @@ class ProfileController extends GetxController
       previsionOptions.value = response.data['data']
           .map<PrevisionTypeModel>((e) => PrevisionTypeModel.fromJson(e))
           .toList();
+      var prevision = GetStorage().read('medical_forecast');
+      if (prevision != null) {
+        selectedPrevisionType.value = previsionOptions.value.firstWhere(
+          (previsionOptions) => previsionOptions.id == int.parse(prevision),
+        );
+      }
     } else {
       AlertService().showErrorAlert(
           message: 'Error al obtener los tipos de procedimientos');
@@ -93,12 +99,33 @@ class ProfileController extends GetxController
     ciController.text = user['uid'] ?? '';
     birthDateController.text = user['date_of_birth'] ?? '';
     phoneNumberController.text = user['phone'] ?? '';
-
     // //Medic Tab
-    medicalInsuranceController.text =
-        GetStorage().read('medicalInsurance') ?? '';
-    medicationController.text = GetStorage().read('medication') ?? '';
-    selectedBloodType.value = GetStorage().read('bloodType') ?? '';
+    bloodGroup.text = GetStorage().read('blood_group') ?? '';
+
+    var chronicDisease = GetStorage().read('chronic_disease');
+    var medication = GetStorage().read('take_medication');
+    var surgery = GetStorage().read('surgical_history');
+    var allergy = GetStorage().read('have_allergies');
+
+    if (chronicDisease != null) {
+      chronicDiseaseController.text = chronicDisease;
+      hasChronicDisease.value = true;
+    }
+
+    if (medication != null) {
+      medicationController.text = medication;
+      haveMedication.value = true;
+    }
+
+    if (surgery != null) {
+      surgeryController.text = surgery;
+      hasSurgery.value = true;
+    }
+
+    if (allergy != null) {
+      allergyController.text = allergy;
+      hasAllergy.value = true;
+    }
   }
 
   void updateUser() async {
