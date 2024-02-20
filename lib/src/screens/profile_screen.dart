@@ -11,13 +11,23 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 // ignore: must_be_immutable
-class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  ProfileController controller = Get.put(ProfileController());
+
+  @override
+  void initState() {
+    super.initState();
+    controller.getPrevisionTypes();
+    controller.setUser();
+  }
 
   @override
   Widget build(BuildContext context) {
-  ProfileController controller = Get.put(ProfileController());
-
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(

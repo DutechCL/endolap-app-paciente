@@ -52,13 +52,7 @@ class ProfileController extends GetxController
 
   @override
   void onReady() {
-    tabController.addListener(() {
-      pageController.animateToPage(
-        tabController.index,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    });
+    pageAnimation();
     getPrevisionTypes();
     setUser();
     hasChronicDisease.value = false;
@@ -66,6 +60,16 @@ class ProfileController extends GetxController
     hasSurgery.value = false;
     hasAllergy.value = false;
     super.onReady();
+  }
+
+  void pageAnimation() {
+    tabController.addListener(() {
+      pageController.animateToPage(
+        tabController.index,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    });
   }
 
   void getPrevisionTypes() async {
@@ -87,44 +91,52 @@ class ProfileController extends GetxController
     }
   }
 
-  void setUser() {
+  void setUser() async {
     var user = GetStorage().read('user');
-
-    //Account Tab
-    emailController.text = user['email'];
     userId = user['id'] ?? 0;
-    // //Personal Data Tab
-    nameController.text = user['name'] ?? '';
-    lastNameController.text = user['last_name'] ?? '';
-    ciController.text = user['uid'] ?? '';
-    birthDateController.text = user['date_of_birth'] ?? '';
-    phoneNumberController.text = user['phone'] ?? '';
-    // //Medic Tab
-    bloodGroup.text = GetStorage().read('blood_group') ?? '';
+    var response = await _apiService.getWithToken('/patients/show/${userId}');
 
-    var chronicDisease = GetStorage().read('chronic_disease');
-    var medication = GetStorage().read('take_medication');
-    var surgery = GetStorage().read('surgical_history');
-    var allergy = GetStorage().read('have_allergies');
+    if (response.statusCode == 200) {
+      var data = response.data['data'];
+      //Account Tab
+      emailController.text = data['email'];
+      // //Personal Data Tab
+      nameController.text = data['name'] ?? '';
+      lastNameController.text = data['last_name'] ?? '';
+      ciController.text = data['uid'] ?? '';
+      birthDateController.text = data['date_of_birth'] ?? '';
+      phoneNumberController.text = data['phone'] ?? '';
+      // //Medic Tab
+      bloodGroup.text = data['clinical_record']['blood_group'] ?? '';
 
-    if (chronicDisease != null) {
-      chronicDiseaseController.text = chronicDisease;
-      hasChronicDisease.value = true;
-    }
+      var chronicDisease = data['clinical_record']['chronic_disease'];
+      var medication = data['clinical_record']['take_medication'];
+      var surgery = data['clinical_record']['surgical_history'];
+      var allergy = data['clinical_record']['have_allergies'];
 
-    if (medication != null) {
-      medicationController.text = medication;
-      haveMedication.value = true;
-    }
+      if (chronicDisease != null) {
+        chronicDiseaseController.text = chronicDisease;
+        hasChronicDisease.value = true;
+      }
 
-    if (surgery != null) {
-      surgeryController.text = surgery;
-      hasSurgery.value = true;
-    }
+      if (medication != null) {
+        medicationController.text = medication;
+        haveMedication.value = true;
+      }
 
-    if (allergy != null) {
-      allergyController.text = allergy;
-      hasAllergy.value = true;
+      if (surgery != null) {
+        surgeryController.text = surgery;
+        hasSurgery.value = true;
+      }
+
+      if (allergy != null) {
+        allergyController.text = allergy;
+        hasAllergy.value = true;
+      }
+    } else {
+      isLoading.value = false;
+      AlertService()
+          .showErrorAlert(message: "Tenemos problemas consultado los datos.");
     }
   }
 
@@ -146,20 +158,18 @@ class ProfileController extends GetxController
       'last_name': lastNameController.text,
       'uid': ciController.text,
       'date_of_birth': birthDateController.text,
-      'phone': phoneNumberController.text,
+      'contact_number': phoneNumberController.text,
       'medical_forecast': selectedPrevisionType.value.id,
       'chronic_disease': chronicDiseaseController.text,
       'take_medication': medicationController.text,
       'surgical_history': surgeryController.text,
       'have_allergies': allergyController.text,
-      'blood_group': bloodGroup.text
+      'blood_group': bloodGroup.text,
     });
 
     if (response.statusCode == 200) {
       AlertService()
           .showSuccessAlert(message: "Usuario actualizado correctamente");
-      // GetStorage().remove('token');
-      // Get.offAllNamed('/auth/login');
     } else {
       isLoading.value = false;
       AlertService().showErrorAlert(message: "Credenciales incorrectas");
