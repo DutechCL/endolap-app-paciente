@@ -170,6 +170,7 @@ class ProfileController extends GetxController
     if (response.statusCode == 200) {
       AlertService()
           .showSuccessAlert(message: "Usuario actualizado correctamente");
+      GetStorage().write('surgical_history', selectedPrevisionType.value.id);
     } else {
       isLoading.value = false;
       AlertService().showErrorAlert(message: "Credenciales incorrectas");
