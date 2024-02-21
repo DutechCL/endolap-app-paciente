@@ -53,7 +53,6 @@ class ProfileController extends GetxController
   @override
   void onReady() {
     pageAnimation();
-    getPrevisionTypes();
     setUser();
     hasChronicDisease.value = false;
     haveMedication.value = false;
@@ -98,6 +97,12 @@ class ProfileController extends GetxController
 
     if (response.statusCode == 200) {
       var data = response.data['data'];
+
+      GetStorage().write(
+          'medical_forecast', data['clinical_record']['medical_forecast']);
+
+      getPrevisionTypes();
+
       //Account Tab
       emailController.text = data['email'];
       // //Personal Data Tab
@@ -149,6 +154,22 @@ class ProfileController extends GetxController
 
     isLoading.value = true;
 
+    if (hasChronicDisease.value == false) {
+      chronicDiseaseController.text = '';
+    }
+
+    if (haveMedication.value == false) {
+      medicationController.text = '';
+    }
+
+    if (hasSurgery.value == false) {
+      surgeryController.text = '';
+    }
+
+    if (hasAllergy.value == false) {
+      allergyController.text = '';
+    }
+
     final response =
         await _apiService.postWithToken('/patients/update/${userId}', {
       'email': emailController.text,
@@ -170,7 +191,8 @@ class ProfileController extends GetxController
     if (response.statusCode == 200) {
       AlertService()
           .showSuccessAlert(message: "Usuario actualizado correctamente");
-      GetStorage().write('surgical_history', selectedPrevisionType.value.id);
+      GetStorage()
+          .write('medical_forecast', selectedPrevisionType.value.id.toString());
     } else {
       isLoading.value = false;
       AlertService().showErrorAlert(message: "Credenciales incorrectas");

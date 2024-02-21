@@ -10,6 +10,8 @@ class MedicTabProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.setUser();
+
     return Form(
       key: controller.medicFormState,
       autovalidateMode: AutovalidateMode.onUserInteraction,
