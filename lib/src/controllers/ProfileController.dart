@@ -99,7 +99,7 @@ class ProfileController extends GetxController
       var data = response.data['data'];
 
       GetStorage().write(
-          'medical_forecast', data['clinical_record']['medical_forecast']);
+          'medical_forecast', data['clinical_record']?['medical_forecast']);
 
       getPrevisionTypes();
 
@@ -112,12 +112,12 @@ class ProfileController extends GetxController
       birthDateController.text = data['date_of_birth'] ?? '';
       phoneNumberController.text = data['phone'] ?? '';
       // //Medic Tab
-      bloodGroup.text = data['clinical_record']['blood_group'] ?? '';
+      bloodGroup.text = data['clinical_record']?['blood_group'] ?? '';
 
-      var chronicDisease = data['clinical_record']['chronic_disease'];
-      var medication = data['clinical_record']['take_medication'];
-      var surgery = data['clinical_record']['surgical_history'];
-      var allergy = data['clinical_record']['have_allergies'];
+      var chronicDisease = data['clinical_record']?['chronic_disease'];
+      var medication = data['clinical_record']?['take_medication'];
+      var surgery = data['clinical_record']?['surgical_history'];
+      var allergy = data['clinical_record']?['have_allergies'];
 
       if (chronicDisease != null) {
         chronicDiseaseController.text = chronicDisease;

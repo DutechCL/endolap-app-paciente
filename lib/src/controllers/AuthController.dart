@@ -6,15 +6,15 @@ import 'package:get_storage/get_storage.dart';
 
 class AuthController extends GetxController {
   final ApiService _apiService = ApiService();
-  
-	var currentStep = 1.obs;
+
+  var currentStep = 1.obs;
   var isLoading = false.obs;
 
   GlobalKey<FormState> loginFormState = GlobalKey<FormState>();
   GlobalKey<FormState> accountFormState = GlobalKey<FormState>();
   GlobalKey<FormState> personalDataFormState = GlobalKey<FormState>();
   GlobalKey<FormState> medicFormState = GlobalKey<FormState>();
-	final PageController pageController = PageController();
+  final PageController pageController = PageController();
 
   //Account Tab
   TextEditingController emailController = TextEditingController();
@@ -45,26 +45,26 @@ class AuthController extends GetxController {
     super.onReady();
   }
 
-	nextPage(){
-		currentStep.value++;
+  nextPage() {
+    currentStep.value++;
 
-		pageController.nextPage(
-			duration: const Duration(milliseconds: 300),
-			curve: Curves.easeInOut,
-		);
-	}
+    pageController.nextPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
 
-	previousPage(){
-		currentStep.value--;
+  previousPage() {
+    currentStep.value--;
 
-		pageController.previousPage(
-			duration: const Duration(milliseconds: 300),
-			curve: Curves.easeInOut,
-		);
-	}
+    pageController.previousPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
 
-  validateLogin(){
-    if(loginFormState.currentState!.validate()){
+  validateLogin() {
+    if (loginFormState.currentState!.validate()) {
       login();
     }
   }
@@ -96,21 +96,31 @@ class AuthController extends GetxController {
     });
 
     if (response.statusCode == 200) {
-      //Guardar token
-      GetStorage().write('token', response.data['token']);
-      GetStorage().write('role', response.data['role']);
-      GetStorage().write('user', response.data['user']);
+      if (response.data['role'] == 'Pacientes') {
+        GetStorage().write('token', response.data['token']);
+        GetStorage().write('role', response.data['role']);
+        GetStorage().write('user', response.data['user']);
 
-      GetStorage().write('medical_forecast', response.data['user']['clinical_record']['medical_forecast']);
-      GetStorage().write('blood_group', response.data['user']['clinical_record']['blood_group']);
-      GetStorage().write('chronic_disease', response.data['user']['clinical_record']['chronic_disease']);
-      GetStorage().write('take_medication', response.data['user']['clinical_record']['take_medication']);
-      GetStorage().write('surgical_history', response.data['user']['clinical_record']['surgical_history']);
-      GetStorage().write('have_allergies', response.data['user']['clinical_record']['have_allergies']);
+        GetStorage().write('medical_forecast',
+            response.data['user']['clinical_record']?['medical_forecast']);
+        GetStorage().write('blood_group',
+            response.data['user']['clinical_record']?['blood_group']);
+        GetStorage().write('chronic_disease',
+            response.data['user']['clinical_record']?['chronic_disease']);
+        GetStorage().write('take_medication',
+            response.data['user']['clinical_record']?['take_medication']);
+        GetStorage().write('surgical_history',
+            response.data['user']['clinical_record']?['surgical_history']);
+        GetStorage().write('have_allergies',
+            response.data['user']['clinical_record']?['have_allergies']);
 
-      isLoading.value = false;
+        isLoading.value = false;
 
-      Get.offNamed('/tabs');
+        Get.offNamed('/tabs');
+      } else {
+        AlertService().showErrorAlert(message: "Credenciales incorrectas");
+        isLoading.value = false;
+      }
     } else {
       AlertService().showErrorAlert(message: "Credenciales incorrectas");
 
