@@ -31,42 +31,42 @@ class SettingsScreen extends StatelessWidget {
 			body: ListView(
 				padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
 				children: [
-					Container(
-						padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-						margin: const EdgeInsets.only(bottom: 23),
-						decoration: decoration,
-						child: Row(
-							children: [
-								Icon(Icons.file_copy_rounded, color: textColor),
-								const SizedBox(width: 10),
-								Text('Términos y condiciones', style: TextStyle(color: textColor)),
-							],
-						),
-					),
-					Container(
-						padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-						margin: const EdgeInsets.only(bottom: 23),
-						decoration: decoration,
-						child: Row(
-							children: [
-								Icon(Icons.report_problem_outlined, color: textColor),
-								const SizedBox(width: 10),
-								Text('Reportar un problema', style: TextStyle(color: textColor)),
-							],
-						),
-					),
-					Container(
-						padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-						margin: const EdgeInsets.only(bottom: 23),
-						decoration: decoration,
-						child: Row(
-							children: [
-								Icon(Icons.security_rounded, color: textColor),
-								const SizedBox(width: 10),
-								Text('Políticas de privacidad', style: TextStyle(color: textColor)),
-							],
-						),
-					),
+					// Container(
+					// 	padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+					// 	margin: const EdgeInsets.only(bottom: 23),
+					// 	decoration: decoration,
+					// 	child: Row(
+					// 		children: [
+					// 			Icon(Icons.file_copy_rounded, color: textColor),
+					// 			const SizedBox(width: 10),
+					// 			Text('Términos y condiciones', style: TextStyle(color: textColor)),
+					// 		],
+					// 	),
+					// ),
+					// Container(
+					// 	padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+					// 	margin: const EdgeInsets.only(bottom: 23),
+					// 	decoration: decoration,
+					// 	child: Row(
+					// 		children: [
+					// 			Icon(Icons.report_problem_outlined, color: textColor),
+					// 			const SizedBox(width: 10),
+					// 			Text('Reportar un problema', style: TextStyle(color: textColor)),
+					// 		],
+					// 	),
+					// ),
+					// Container(
+					// 	padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+					// 	margin: const EdgeInsets.only(bottom: 23),
+					// 	decoration: decoration,
+					// 	child: Row(
+					// 		children: [
+					// 			Icon(Icons.security_rounded, color: textColor),
+					// 			const SizedBox(width: 10),
+					// 			Text('Políticas de privacidad', style: TextStyle(color: textColor)),
+					// 		],
+					// 	),
+					// ),
 					
           GestureDetector(
             onTap: () => controller.logout(),
