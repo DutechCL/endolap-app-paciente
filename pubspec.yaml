@@ -48,7 +48,7 @@ dependencies:
   expandable_page_view: ^1.0.17
   dio: ^5.3.3
   get_storage: ^2.1.1
-  intl: ^0.18.1
+  intl: ^0.19.0
   loader_skeleton: ^0.0.4
   select_dialog: ^2.0.1
   chips_choice: ^3.0.1
