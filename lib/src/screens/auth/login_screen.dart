@@ -65,7 +65,7 @@ class LoginScreen extends StatelessWidget {
                                 return null;
                               },
                             ),
-                        false.obs),
+                        true.obs),
                     const SizedBox(height: 30),
 
                     Obx(() => authController.isLoading.value
@@ -74,15 +74,7 @@ class LoginScreen extends StatelessWidget {
 
                     Row(
                       children: [
-                        // Remember me
-                        ObxValue(
-                            (p0) => Checkbox(
-                                  value: p0.value,
-                                  onChanged: (value) => p0.toggle(),
-                                ),
-                            false.obs),
-
-                        const Text("Recordarme"),
+                 
                         const Spacer(),
                         // Forgot password
                         TextButton(
